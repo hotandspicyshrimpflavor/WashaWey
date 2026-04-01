@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WashaWey - Marketplace Templates</title>
+    <style>
+        :root {
+            --bg-primary: #0D0D0D;
+            --bg-secondary: #1A1A1A;
+            --accent: #F59E0B;
+            --accent-hover: #D97706;
+            --text-primary: #FFFFFF;
+            --text-secondary: #A3A3A3;
+            --border: #333333;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+
+        .container { max-width: 1200px; margin: 0 auto; }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+            text-align: center;
+        }
+        h1 span { color: var(--accent); }
+
+        .subtitle {
+            color: var(--text-secondary);
+            text-align: center;
+            margin-bottom: 48px;
+        }
+
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 32px;
+        }
+
+        .template-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .template-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent);
+        }
+
+        .template-preview {
+            aspect-ratio: 16/10;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .template-facebook {
+            background: linear-gradient(135deg, #1877f2 0%, #0d5bb5 100%);
+        }
+
+        .template-craigslist {
+            background: linear-gradient(135deg, #2a2a2a 0%, #1a1a1a 100%);
+        }
+
+        .template-instagram {
+            background: linear-gradient(135deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+        }
+
+        .template-general {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-hover) 100%);
+        }
+
+        .preview-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+
+        .preview-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: white;
+            line-height: 1.3;
+        }
+
+        .preview-price {
+            font-family: 'Courier New', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+        }
+
+        .preview-desc {
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.8);
+            line-height: 1.5;
+        }
+
+        .template-info {
+            padding: 20px;
+            border-top: 1px solid var(--border);
+        }
+
+        .template-info h3 {
+            font-size: 1.1rem;
+            margin-bottom: 8px;
+        }
+
+        .template-info p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .copy-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 16px;
+            padding: 10px 20px;
+            background: var(--accent);
+            color: var(--bg-primary);
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .copy-btn:hover {
+            background: var(--accent-hover);
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .modal.open { display: flex; }
+
+        .modal-content {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            max-width: 600px;
+            width: 100%;
+            max-height: 80vh;
+            overflow: auto;
+        }
+
+        .modal-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h3 { font-size: 1.25rem; }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        .modal-body {
+            padding: 20px;
+        }
+
+        .template-text {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.85rem;
+            line-height: 1.7;
+            white-space: pre-wrap;
+            color: var(--text-secondary);
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: var(--accent);
+            color: var(--bg-primary);
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: transform 0.3s;
+            z-index: 1001;
+        }
+
+        .toast.show { transform: translateX(-50%) translateY(0); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Washa<span>Wey</span> - Marketplace Templates</h1>
+        <p class="subtitle">Ready-to-use templates for Facebook Marketplace, Craigslist, Instagram, and more</p>
+
+        <div class="templates-grid">
+            <div class="template-card">
+                <div class="template-preview template-facebook">
+                    <span class="preview-badge">Facebook Marketplace</span>
+                    <div class="preview-title">MSI Laptop & Android Repair</div>
+                    <div class="preview-price">From $40</div>
+                    <div class="preview-desc">Fast, professional tech repair. Same-day service available!</div>
+                </div>
+                <div class="template-info">
+                    <h3>Facebook Marketplace</h3>
+                    <p>Perfect for reaching local customers. Include pricing and fast response times.</p>
+                    <button class="copy-btn" onclick="openModal('facebook')">View Template</button>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview template-craigslist">
+                    <span class="preview-badge">Craigslist</span>
+                    <div class="preview-title">Tech Repair - MSI Laptops, Phones, SSD</div>
+                    <div class="preview-price">$40 - $150</div>
+                    <div class="preview-desc">Professional repair service. Honest pricing. No fix, no fee.</div>
+                </div>
+                <div class="template-info">
+                    <h3>Craigslist</h3>
+                    <p>Classic classified ads format. Great for local SEO and reaching customers.</p>
+                    <button class="copy-btn" onclick="openModal('craigslist')">View Template</button>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview template-instagram">
+                    <span class="preview-badge">Instagram</span>
+                    <div class="preview-title">Before & After Repairs</div>
+                    <div class="preview-price">DM for Quote</div>
+                    <div class="preview-desc">Watch the transformation! Professional tech repairs done right.</div>
+                </div>
+                <div class="template-info">
+                    <h3>Instagram Post</h3>
+                    <p>Visual before/after format for showcasing repair quality.</p>
+                    <button class="copy-btn" onclick="openModal('instagram')">View Template</button>
+                </div>
+            </div>
+
+            <div class="template-card">
+                <div class="template-preview template-general">
+                    <span class="preview-badge">Reddit</span>
+                    <div class="preview-title">Local Tech Repair - MSI/Android Specialist</div>
+                    <div class="preview-price">Fair Rates</div>
+                    <div class="preview-desc">Offering professional repair services. AMA!</div>
+                </div>
+                <div class="template-info">
+                    <h3>Reddit Post</h3>
+                    <p>Community-focused format for r/AndroidRoot, r/techsupport, and local subs.</p>
+                    <button class="copy-btn" onclick="openModal('reddit')">View Template</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Template</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <pre class="template-text" id="modalText"></pre>
+                <button class="copy-btn" style="margin-top: 16px; width: 100%; justify-content: center;" onclick="copyText()">
+                    Copy to Clipboard
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast" id="toast">Copied to clipboard!</div>
+
+    <script>
+        const templates = {
+            facebook: {
+                title: 'Facebook Marketplace Template',
+                text: `MSI LAPTOP & ANDROID REPAIR - FAST SERVICE
+
+SERVICES OFFERED:
+- Laptop Repair / SSD Upgrade: $75-150
+- Phone Screen Replacement: $40-100
+- Custom ROM / Bootloader Unlock: $40-80
+- 3D Printed Parts: $20-100
+
+WHY CHOOSE ME:
+- MSI laptop specialist
+- Fast turnaround (24-48 hours)
+- Fair, transparent pricing
+- No fix? No fee!
+
+Local pickup available. DM for quick quote!`
+            },
+            craigslist: {
+                title: 'Craigslist Template',
+                text: `TECH REPAIR - MSI Laptops, Android, SSD Upgrades
+
+Professional repair service for all your tech needs.
+
+SERVICES:
+- Laptop repair / SSD swap: $75-150
+- Phone screen repair: $40-100
+- Custom ROM installation: $40-80
+- 3D printed parts: $20-100
+
+Specializing in MSI laptops and Android devices.
+
+Fast service, honest pricing. Most repairs done in 24-48 hours.
+
+Contact for free quote!`
+            },
+            instagram: {
+                title: 'Instagram Post Template',
+                text: `YOUR TECH. FIXED RIGHT.
+
+From cracked screens to SSD upgrades, we handle it all.
+
+Services:
+Laptop Repair - from $75
+Screen Replacement - from $40
+Custom ROM - from $40
+3D Parts - from $20
+
+DM for a free quote!
+
+#TechRepair #MSI #AndroidRepair #PhoneFix #ComputerRepair #LaptopRepair`
+            },
+            reddit: {
+                title: 'Reddit Template',
+                text: `[SERVICES] Local Tech Repair - MSI Laptops & Android Specialist
+
+Hey everyone! Offering professional tech repair services in the area.
+
+MY EXPERTISE:
+- MSI laptop repairs & diagnostics
+- SSD upgrades & installations
+- Phone screen replacement
+- Custom ROM / bootloader unlocking
+- 3D printed replacement parts
+
+PRICING:
+- Laptop repair: $75-150
+- SSD upgrade: $75-150
+- Phone repair: $40-100
+- Custom ROM: $40-80
+- 3D parts: $20-100
+
+Most jobs completed in 24-48 hours. No fix, no fee.
+
+PM me or drop a comment if you need something fixed!`
+            }
+        };
+
+        let currentTemplate = '';
+
+        function openModal(key) {
+            const modal = document.getElementById('modal');
+            const title = document.getElementById('modalTitle');
+            const text = document.getElementById('modalText');
+            currentTemplate = key;
+            title.textContent = templates[key].title;
+            text.textContent = templates[key].text;
+            modal.classList.add('open');
+        }
+
+        function closeModal() {
+            document.getElementById('modal').classList.remove('open');
+        }
+
+        function copyText() {
+            navigator.clipboard.writeText(templates[currentTemplate].text).then(() => {
+                const toast = document.getElementById('toast');
+                toast.classList.add('show');
+                setTimeout(() => toast.classList.remove('show'), 2000);
+            });
+        }
+
+        document.getElementById('modal').addEventListener('click', (e) => {
+            if (e.target.id === 'modal') closeModal();
+        });
+    </script>
+</body>
+</html>
