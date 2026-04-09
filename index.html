@@ -1038,11 +1038,16 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script>
-        const supabaseUrl = 'https://svsspmwqkjzradsdvffj.supabase.co';
-        const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdjNzcG13cWtqenJhZHNkdmZmaiIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzQ1MTM0MjAwLCJleHAiOjE5NjA2OTQyMDB9.0sIGj99nzMQL-Ij4nA8Qq8Xc5cKj8gMLKSCb8kMQnbY';
-        const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
+        // Load Supabase first, then initialize
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2';
+        script.onload = function() {
+            const supabaseUrl = 'https://svsspmwqkjzradsdvffj.supabase.co';
+            const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdjNzcG13cWtqenJhZHNkdmZmaiIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzQ1MTM0MjAwLCJleHAiOjE5NjA2OTQyMDB9.0sIGj99nzMQL-Ij4nA8Qq8Xc5cKj8gMLKSCb8kMQnbY';
+            window.supabase = window.supabase.createClient(supabaseUrl, supabaseAnonKey);
+        };
+        document.head.appendChild(script);
     </script>
     <script>
     // ══════════════════════════════════════════════════════
@@ -1374,7 +1379,7 @@
     // FORM SUBMISSION
     // ══════════════════════════════════════════════════════
     async function insertQuote(name, email, device, message) {
-      const { error } = await supabase.from('quotes').insert({
+      const { error } = await window.supabase.from('quotes').insert({
         name,
         email,
         device,
