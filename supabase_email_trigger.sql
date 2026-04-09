@@ -1,0 +1,63 @@
+-- ============================================================
+-- WashaWey Quote Email Trigger
+-- Run this in: https://supabase.com/dashboard/project/svsspmwqkjzradsdvffj/sql
+-- ============================================================
+
+-- 1. Enable pg_net extension (required for HTTP calls from PostgreSQL)
+create extension if not exists pg_net;
+
+-- 2. Create the trigger function
+create or replace function public.send_quote_email()
+returns trigger
+language plpgsql
+security definer
+as $$
+declare
+  email_html text;
+  payload    jsonb;
+begin
+  -- Build the email HTML
+  email_html :=
+    '<h1 style="color:#F59E0B;font-family:Arial,sans-serif;">New WashaWey Quote Request</h1>'
+    || '<div style="font-family:Arial,sans-serif;line-height:1.6;">'
+    || '<p><strong>Customer:</strong> '  || coalesce(new.name,    '—') || '</p>'
+    || '<p><strong>Email:</strong> '     || coalesce(new.email,   '—') || '</p>'
+    || '<p><strong>Device/Issue:</strong> ' || coalesce(new.device, '—') || '</p>'
+    || '<hr style="border:1px solid #eee;margin:20px 0;">'
+    || '<h3>Message:</h3>'
+    || '<p>' || replace(coalesce(new.message, ''), chr(10), '<br>') || '</p>'
+    || '<hr style="border:1px solid #eee;margin:20px 0;">'
+    || '<p style="color:#666;font-size:12px;"><strong>Source:</strong> WashaWey Tech Repair Website</p>'
+    || '</div>';
+
+  -- Build the Resend API JSON payload
+  payload := jsonb_build_object(
+    'from',    'WashaWey <quotes@washawey.com>',
+    'to',      jsonb_build_array('washawey@gmail.com'),
+    'subject', 'New Quote: ' || coalesce(new.name, 'Unknown') || ' - ' || coalesce(new.device, 'Unknown'),
+    'html',    email_html
+  );
+
+  -- Fire HTTP POST to Resend API (non-blocking)
+  perform net.http_post(
+    url     := 'https://api.resend.com/emails',
+    headers := jsonb_build_object(
+      'Authorization', 'Bearer re_8B4Vn8kU_EZrW1WG8ofrvzswmVvL9Lt6v',
+      'Content-Type',  'application/json'
+    ),
+    body    := payload
+  );
+
+  return new;
+end;
+$$;
+
+-- 3. Drop old trigger if it exists, then create fresh
+drop trigger if exists on_quote_inserted on public.quotes;
+
+create trigger on_quote_inserted
+  after insert on public.quotes
+  for each row execute function public.send_quote_email();
+
+-- 4. Quick sanity check
+select 'Trigger created successfully ✓' as status;

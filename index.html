@@ -1038,14 +1038,12 @@
         </div>
     </footer>
 
-    <title>Washa Wey</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script>
-        const supabaseUrl = 'YOUR_SUPABASE_URL';
-        const supabaseAnonKey = 'YOUR_SUPABASE_ANON_KEY';
+        const supabaseUrl = 'https://svsspmwqkjzradsdvffj.supabase.co';
+        const supabaseAnonKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdjNzcG13cWtqenJhZHNkdmZmaiIsInJvbGUiOiJhbm9uIiwiaWF0IjoxNzQ1MTM0MjAwLCJleHAiOjE5NjA2OTQyMDB9.0sIGj99nzMQL-Ij4nA8Qq8Xc5cKj8gMLKSCb8kMQnbY';
         const supabase = supabase.createClient(supabaseUrl, supabaseAnonKey);
     </script>
-    <script src="https://cdn.resend.com/js/resend.js"></script>
     <script>
     // ══════════════════════════════════════════════════════
     // CUSTOM CURSOR
@@ -1375,19 +1373,49 @@
     // ══════════════════════════════════════════════════════
     // FORM SUBMISSION
     // ══════════════════════════════════════════════════════
+    async function insertQuote(name, email, device, message) {
+      const { error } = await supabase.from('quotes').insert({
+        name,
+        email,
+        device,
+        message
+      });
+      if (error) {
+        console.error('[supabase] insert error:', error);
+        return false;
+      }
+      return true;
+    }
+
     const contactForm = document.getElementById('contactForm');
     const formSuccess = document.getElementById('formSuccess');
 
-    contactForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        const btn = contactForm.querySelector('.form-submit');
-        btn.textContent = 'Sending... ⚡';
-        btn.disabled = true;
-        setTimeout(() => {
-            contactForm.style.display = 'none';
-            formSuccess.classList.add('show');
-            launchConfetti();
-        }, 1000);
+    contactForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = contactForm.querySelector('.form-submit');
+      btn.textContent = 'Sending... ⚡';
+      btn.disabled = true;
+
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const device = document.getElementById('device').value.trim();
+      const message = document.getElementById('message').value.trim();
+
+      try {
+        const ok = await insertQuote(name, email, device, message);
+        if (ok) {
+          contactForm.style.display = 'none';
+          formSuccess.classList.add('show');
+          launchConfetti();
+        } else {
+          btn.textContent = 'Try again';
+          btn.disabled = false;
+        }
+      } catch (err) {
+        console.error('[form] submit error:', err);
+        btn.textContent = 'Try again';
+        btn.disabled = false;
+      }
     });
 
     // ══════════════════════════════════════════════════════
@@ -1433,11 +1461,5 @@
         item.addEventListener('mouseenter', () => cursorRing.classList.add('hovering'));
         item.addEventListener('mouseleave', () => cursorRing.classList.remove('hovering'));
     });
-        const resend = new Resend('YOUR_RESEND_API_KEY');
     </script>
 </head>
-<body>
-    <h1>Welcome to Washa Wey!</h1>
-</body>
-</html>
-</html>
