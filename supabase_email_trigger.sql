@@ -43,7 +43,7 @@ begin
   -- Build the Resend API JSON payload
   payload := jsonb_build_object(
     'from',    'WashaWey <quotes@washawey.com>',
-    'to',      jsonb_build_array('washawey@gmail.com'),
+    'to',      jsonb_build_array('repair@washawey.com'),
     'subject', 'New Quote: ' || coalesce(new.name, 'Unknown') || ' - ' || coalesce(new.device, 'Unknown'),
     'html',    email_html
   );
