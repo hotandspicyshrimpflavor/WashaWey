@@ -1408,10 +1408,12 @@
           formSuccess.classList.add('show');
           launchConfetti();
         } else {
+          alert('Something went wrong. Please try again or email us directly at repair@washawey.com');
           btn.textContent = 'Try again';
           btn.disabled = false;
         }
       } catch (err) {
+        alert('Error: ' + err.message + ' — Please email repair@washawey.com directly');
         console.error('[form] submit error:', err);
         btn.textContent = 'Try again';
         btn.disabled = false;

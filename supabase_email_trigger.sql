@@ -13,10 +13,13 @@ create table if not exists public.quotes (
   created_at timestamp with time zone default now()
 );
 
--- STEP 4: Enable pg_net extension (required for HTTP calls from PostgreSQL)
+-- Disable RLS so anonymous inserts work from the website
+alter table public.quotes disable row level security;
+
+-- STEP 2: Enable pg_net extension (required for HTTP calls from PostgreSQL)
 create extension if not exists pg_net;
 
--- STEP 5: Create the trigger function
+-- STEP 3: Create the trigger function
 create or replace function public.send_quote_email()
 returns trigger
 language plpgsql
@@ -62,12 +65,11 @@ begin
 end;
 $$;
 
--- 3. Drop old trigger if it exists, then create fresh
+-- STEP 4: Wire the trigger to fire after INSERT
 drop trigger if exists on_quote_inserted on public.quotes;
-
 create trigger on_quote_inserted
   after insert on public.quotes
   for each row execute function public.send_quote_email();
 
--- 4. Quick sanity check
-select 'Trigger created successfully ✓' as status;
+-- STEP 5: Verify
+select 'Setup complete ✓' as status;
