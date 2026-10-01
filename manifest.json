@@ -1,0 +1,17 @@
+{
+  "name": "WashaWey Tech Repair",
+  "short_name": "WashaWey",
+  "description": "MSI laptop, Android, SSD, custom ROM, and 3D printed parts repair.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0D0D0D",
+  "theme_color": "#F59E0B",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

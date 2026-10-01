@@ -1,0 +1,14 @@
+# Wrangler / Cloudflare dev
+.wrangler
+.dev.vars*
+!.dev.vars.example
+.env*
+!.env.example
+
+# OS / editor junk
+.DS_Store
+Thumbs.db
+*.swp
+*~
+.vscode/
+.idea/

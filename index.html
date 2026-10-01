@@ -1068,13 +1068,6 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script>
-        window.supabase = supabase.createClient(
-            'https://svsspmwqkjzradsdvffj.supabase.co',
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InN2c3NwbXdxa2p6cmFkc2R2ZmZqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU3MDYxNDEsImV4cCI6MjA5MTI4MjE0MX0.QY5TteA43Gdd6Swe0JrlXBFlNBB6xWCvM6GXJbb4t0g'
-        );
-    </script>
     <script>
     // ══════════════════════════════════════════════════════
     // CUSTOM CURSOR
@@ -1402,22 +1395,12 @@
     }
 
     // ══════════════════════════════════════════════════════
-    // FORM SUBMISSION
+    // FORM SUBMISSION (Worker → Resend)
+    // No external CDN dependency. No leaked keys.
     // ══════════════════════════════════════════════════════
-    async function insertQuote(name, email, device, message) {
-      const { error } = await window.supabase.from('quotes').insert([
-        { name, email, device, message }
-      ]);
-      if (error) {
-        console.error('[supabase] insert error:', JSON.stringify(error));
-        alert('Error: ' + (error.message || error.code || 'Unknown error') + '. Email us at repair@washawey.com');
-        return false;
-      }
-      return true;
-    }
-
     const contactForm = document.getElementById('contactForm');
     const formSuccess = document.getElementById('formSuccess');
+    const originalBtnLabel = contactForm.querySelector('.form-submit').textContent;
 
     contactForm.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -1430,20 +1413,40 @@
       const device = document.getElementById('device').value.trim();
       const message = document.getElementById('message').value.trim();
 
+      if (!name || !email || !message) {
+        alert('Please fill in name, email, and a description of the issue.');
+        btn.textContent = originalBtnLabel;
+        btn.disabled = false;
+        return;
+      }
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        alert('That email address looks off — please double-check it.');
+        btn.textContent = originalBtnLabel;
+        btn.disabled = false;
+        return;
+      }
+
       try {
-        const ok = await insertQuote(name, email, device, message);
-        if (ok) {
-          contactForm.style.display = 'none';
-          formSuccess.classList.add('show');
-          launchConfetti();
-        } else {
-          alert('Something went wrong. Please try again or email us directly at repair@washawey.com');
-          btn.textContent = 'Try again';
-          btn.disabled = false;
+        const res = await fetch('/api/email', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ name, email, device, message }),
+        });
+        const result = await res.json().catch(() => ({}));
+        if (!res.ok) {
+          throw new Error(result.error || result.detail || ('HTTP ' + res.status));
         }
+        contactForm.style.display = 'none';
+        formSuccess.classList.add('show');
+        launchConfetti();
       } catch (err) {
-        alert('Error: ' + err.message + ' — Please email repair@washawey.com directly');
         console.error('[form] submit error:', err);
+        const fallbackMailto = 'mailto:repair@washawey.com'
+          + '?subject=' + encodeURIComponent('WashaWey quote request')
+          + '&body=' + encodeURIComponent(`Name: ${name}\nEmail: ${email}\nDevice: ${device}\n\n${message}`);
+        if (confirm("Couldn't reach the server (" + err.message + "). Open your email app to send us a quote directly?")) {
+          window.location.href = fallbackMailto;
+        }
         btn.textContent = 'Try again';
         btn.disabled = false;
       }
