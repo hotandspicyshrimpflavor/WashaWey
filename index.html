@@ -557,6 +557,33 @@
         }
 
         /* ═══════════════════════════════════════════
+           LOGO MARK + FEATURED SERVICE CARD
+        ═══════════════════════════════════════════ */
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .logo-mark {
+            width: 26px;
+            height: 26px;
+            color: var(--accent);
+            flex-shrink: 0;
+            filter: drop-shadow(0 0 6px var(--accent-glow));
+        }
+        .service-card--featured {
+            background: radial-gradient(ellipse at center, var(--accent-2-glow) 0%, transparent 70%), var(--bg-tertiary);
+            border-color: rgba(168, 85, 247, 0.25);
+        }
+        .service-card--featured:hover {
+            border-color: var(--accent-2);
+            box-shadow: 0 25px 50px rgba(0,0,0,0.4), 0 0 40px var(--accent-2-glow);
+        }
+        .service-card--featured .service-icon svg {
+            stroke: var(--accent-2);
+        }
+
+        /* ═══════════════════════════════════════════
            GALLERY SECTION
         ═══════════════════════════════════════════ */
         .gallery { padding: 120px 0; background: var(--bg-primary); }
@@ -797,7 +824,12 @@
     <!-- Navigation -->
     <nav class="nav" id="nav">
         <div class="container nav-inner">
-            <a href="#" class="logo">Washa<span class="glitch-text" data-text="Wey">Wey</span></a>
+            <a href="#" class="logo">
+                <svg class="logo-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M3 4 L8 19 L12 8 L16 19 L21 4"/>
+                </svg>
+                Washa<span class="glitch-text" data-text="Wey">Wey</span>
+            </a>
             <ul class="nav-links">
                 <li><a href="#services">Services</a></li>
                 <li><a href="#gallery">Gallery</a></li>
@@ -917,7 +949,7 @@
                     <span class="service-price">$40 - $80</span>
                     <p class="service-desc">Unlock your Android device's full potential with custom ROMs, bootloader unlocking, and root access installation.</p>
                 </div>
-                <div class="service-card fade-up tilt-card">
+                <div class="service-card service-card--featured fade-up tilt-card">
                     <div class="service-card-shine"></div>
                     <div class="service-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round">
@@ -941,6 +973,39 @@
                     <h3 class="service-title">Phone Screen / Repair</h3>
                     <span class="service-price">$40 - $100</span>
                     <p class="service-desc">Cracked screens, battery replacements, and comprehensive phone repairs. Quality parts with expert installation.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brands & Devices Section -->
+    <section class="brands-strip">
+        <div class="container">
+            <div class="section-header fade-up">
+                <div class="section-label">Coverage</div>
+                <h2 class="section-title">Brands &amp; Devices We Service</h2>
+                <p class="section-sub">From everyday consumer tech to high-end specialty hardware — we handle it all.</p>
+            </div>
+            <div class="brands-grid">
+                <div class="brand-cat fade-up">
+                    <div class="brand-cat-label">Laptops</div>
+                    <div class="brand-list">Apple · Dell · HP · <span class="brand-featured">MSI</span></div>
+                </div>
+                <div class="brand-cat fade-up">
+                    <div class="brand-cat-label">Desktops</div>
+                    <div class="brand-list">Custom Builds · Dell · HP · ASUS</div>
+                </div>
+                <div class="brand-cat fade-up">
+                    <div class="brand-cat-label">Phones</div>
+                    <div class="brand-list">Apple · Samsung · Google · Motorola</div>
+                </div>
+                <div class="brand-cat fade-up">
+                    <div class="brand-cat-label">Tablets</div>
+                    <div class="brand-list">Apple · Samsung · Microsoft · Lenovo</div>
+                </div>
+                <div class="brand-cat fade-up">
+                    <div class="brand-cat-label">Consoles</div>
+                    <div class="brand-list">Sony · Microsoft · Nintendo · Valve</div>
                 </div>
             </div>
         </div>
@@ -982,39 +1047,6 @@
                     </div>
                     <h3 class="why-title">Fair Pricing</h3>
                     <p class="why-desc">Transparent quotes before any work begins. No hidden fees, no surprises. Quality you can afford.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- Brands & Devices Section -->
-    <section class="brands-strip">
-        <div class="container">
-            <div class="section-header fade-up">
-                <div class="section-label">Coverage</div>
-                <h2 class="section-title">Brands &amp; Devices We Service</h2>
-                <p class="section-sub">From everyday consumer tech to high-end specialty hardware — we handle it all.</p>
-            </div>
-            <div class="brands-grid">
-                <div class="brand-cat fade-up">
-                    <div class="brand-cat-label">Laptops</div>
-                    <div class="brand-list">Apple · Dell · HP · <span class="brand-featured">MSI</span></div>
-                </div>
-                <div class="brand-cat fade-up">
-                    <div class="brand-cat-label">Desktops</div>
-                    <div class="brand-list">Custom Builds · Dell · HP · ASUS</div>
-                </div>
-                <div class="brand-cat fade-up">
-                    <div class="brand-cat-label">Phones</div>
-                    <div class="brand-list">Apple · Samsung · Google · Motorola</div>
-                </div>
-                <div class="brand-cat fade-up">
-                    <div class="brand-cat-label">Tablets</div>
-                    <div class="brand-list">Apple · Samsung · Microsoft · Lenovo</div>
-                </div>
-                <div class="brand-cat fade-up">
-                    <div class="brand-cat-label">Consoles</div>
-                    <div class="brand-list">Sony · Microsoft · Nintendo · Valve</div>
                 </div>
             </div>
         </div>
