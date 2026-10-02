@@ -1,0 +1,11 @@
+# Files / directories wrangler should NOT upload to Cloudflare
+.git
+.gitignore
+.wrangler
+.dev.vars*
+!.dev.vars.example
+node_modules
+.DS_Store
+*.md
+!README.md
+marketing/

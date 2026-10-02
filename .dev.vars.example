@@ -1,0 +1,5 @@
+# Copy to .dev.vars for local `wrangler dev`. NEVER commit real values.
+RESEND_API_KEY=re_your_resend_api_key_here
+# Optional overrides:
+# MAIL_TO=you@yourdomain.com
+# MAIL_FROM="WashaWey <noreply@washawey.com>"

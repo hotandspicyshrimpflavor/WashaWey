@@ -1,0 +1,39 @@
+# Cloudflare Pages _headers file
+# Applied at deploy time to every matching response.
+
+/
+  # Force HTTPS for 2 years, include subdomains, eligible for preload
+  Strict-Transport-Security: max-age=63072000; includeSubDomains; preload
+  # Block framing entirely
+  X-Frame-Options: DENY
+  # Prevent MIME sniffing
+  X-Content-Type-Options: nosniff
+  # Reasonable referrer policy
+  Referrer-Policy: strict-origin-when-cross-origin
+  # Permissions policy — disable unused powerful features
+  Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
+  # Content Security Policy
+  # - default-src 'self'                            → only same-origin by default
+  # - script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net → inline scripts + jsdelivr fallback for supabase was removed but allow it
+  # - style-src 'self' 'unsafe-inline' Google Fonts → inline styles + Google Fonts CSS
+  # - font-src 'self' data: fonts.gstatic.com       → Google Fonts files
+  # - img-src 'self' data: https:                    → any https image
+  # - connect-src 'self'                             → fetch only to our own origin (Worker endpoint)
+  # - frame-ancestors 'none'                         → belt-and-suspenders with X-Frame-Options
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self'; frame-ancestors 'none'; base-uri 'self'; form-action 'self' mailto:
+
+# Sitemap and robots are public — shorter cache so updates propagate quickly
+/sitemap.xml
+  Cache-Control: public, max-age=3600
+
+/robots.txt
+  Cache-Control: public, max-age=3600
+
+# Long-cache hashed assets (none right now, but future-proof)
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Marketing assets are archived in the repo for reference but not part of the live site
+/marketing/*
+  X-Robots-Tag: noindex
+  Cache-Control: public, max-age=86400
