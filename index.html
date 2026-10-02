@@ -1,8 +1,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WashaWey Tech Repair | MSI Laptops & Android Specialists</title>
-    <meta name="description" content="Professional tech repair for MSI laptops, Android devices, SSD upgrades, custom ROMs, and 3D printed parts. Fast, fair, and done right.">
+    <title>WashaWey Tech Repair | Laptop, PC & Android Repair Experts</title>
+    <meta name="description" content="Professional repair for laptops, PCs, Android, SSDs, custom ROMs, and 3D printed parts. MSI specialists. Fast, fair, done right.">
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,6 +17,10 @@
             --accent-hover: #D97706;
             --accent-glow: rgba(245, 158, 11, 0.15);
             --accent-glow-strong: rgba(245, 158, 11, 0.35);
+            --accent-2: #A855F7;
+            --accent-2-hover: #9333EA;
+            --accent-2-glow: rgba(168, 85, 247, 0.15);
+            --accent-2-glow-strong: rgba(168, 85, 247, 0.35);
             --text-primary: #FFFFFF;
             --text-secondary: #A3A3A3;
             --text-muted: #737373;
@@ -504,6 +508,55 @@
         .phone-cta-sub { color: var(--text-muted); margin-top: 12px; font-size: 0.95rem; }
 
         /* ═══════════════════════════════════════════
+           BRANDS & DEVICES STRIP
+        ═══════════════════════════════════════════ */
+        .brands-strip {
+            padding: 80px 0;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        .brands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+            gap: 20px;
+            max-width: 1100px;
+            margin: 40px auto 0;
+        }
+        .brand-cat {
+            text-align: center;
+            padding: 24px 16px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            transition: border-color 0.3s ease, transform 0.3s ease;
+        }
+        .brand-cat:hover {
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+        .brand-cat-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent);
+            margin-bottom: 14px;
+        }
+        .brand-list {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            font-weight: 500;
+            line-height: 1.5;
+        }
+        .brand-featured {
+            color: var(--accent-2);
+            font-weight: 700;
+            text-shadow: 0 0 8px var(--accent-2-glow);
+        }
+
+        /* ═══════════════════════════════════════════
            GALLERY SECTION
         ═══════════════════════════════════════════ */
         .gallery { padding: 120px 0; background: var(--bg-primary); }
@@ -799,7 +852,7 @@
                         <path d="M2 17l10 5 10-5"></path>
                         <path d="M2 12l10 5 10-5"></path>
                     </svg>
-                    MSI &amp; Android Specialists
+                    Laptop, PC &amp; Android Repair · MSI Specialists
                 </div>
                 <h1>Your Tech.<br><span class="highlight"><span class="glitch-text" data-text="Fixed Right.">Fixed Right.</span></span></h1>
                 <p class="hero-sub" id="typewriter-target"></p>
@@ -848,9 +901,9 @@
                             <line x1="12" y1="17" x2="12" y2="21"></line>
                         </svg>
                     </div>
-                    <h3 class="service-title">Laptop Repair / SSD Swap</h3>
+                    <h3 class="service-title">Laptop &amp; PC Repair / SSD Upgrades</h3>
                     <span class="service-price">$75 - $150</span>
-                    <p class="service-desc">Complete laptop diagnostics, hardware repairs, and lightning-fast SSD upgrades. MSI specialists with years of experience.</p>
+                    <p class="service-desc">Complete laptop and PC diagnostics, hardware repairs, and lightning-fast SSD upgrades. From Chromebooks to high-end MSI gaming rigs — every brand, every model.</p>
                 </div>
                 <div class="service-card fade-up tilt-card">
                     <div class="service-card-shine"></div>
@@ -918,7 +971,7 @@
                         </svg>
                     </div>
                     <h3 class="why-title">Trusted Expertise</h3>
-                    <p class="why-desc">Specialized in MSI laptops and Android devices. Years of hands-on experience with complex repairs.</p>
+                    <p class="why-desc">Specialized in laptops, PCs, and Android — including high-end MSI gaming hardware. Years of hands-on experience with complex repairs.</p>
                 </div>
                 <div class="why-card fade-up">
                     <div class="why-icon">
@@ -929,6 +982,39 @@
                     </div>
                     <h3 class="why-title">Fair Pricing</h3>
                     <p class="why-desc">Transparent quotes before any work begins. No hidden fees, no surprises. Quality you can afford.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Brands & Devices Section -->
+    <section class="brands-strip">
+        <div class="container">
+            <div class="section-header fade-up">
+                <div class="section-label">Coverage</div>
+                <h2 class="section-title">Brands &amp; Devices We Service</h2>
+                <p class="section-sub">From everyday consumer tech to high-end specialty hardware — we handle it all.</p>
+            </div>
+            <div class="brands-grid">
+                <div class="brand-cat fade-up">
+                    <div class="brand-cat-label">Laptops</div>
+                    <div class="brand-list">Apple · Dell · HP · <span class="brand-featured">MSI</span></div>
+                </div>
+                <div class="brand-cat fade-up">
+                    <div class="brand-cat-label">Desktops</div>
+                    <div class="brand-list">Custom Builds · Dell · HP · ASUS</div>
+                </div>
+                <div class="brand-cat fade-up">
+                    <div class="brand-cat-label">Phones</div>
+                    <div class="brand-list">Apple · Samsung · Google · Motorola</div>
+                </div>
+                <div class="brand-cat fade-up">
+                    <div class="brand-cat-label">Tablets</div>
+                    <div class="brand-list">Apple · Samsung · Microsoft · Lenovo</div>
+                </div>
+                <div class="brand-cat fade-up">
+                    <div class="brand-cat-label">Consoles</div>
+                    <div class="brand-list">Sony · Microsoft · Nintendo · Valve</div>
                 </div>
             </div>
         </div>
@@ -956,7 +1042,7 @@
             </div>
             <div class="gallery-grid fade-up">
                 <div class="gallery-item">
-                    <img src="./imgs/ssd-upgrade.jpg" alt="MSI Laptop SSD Upgrade" loading="lazy">
+                    <img src="./imgs/ssd-upgrade.jpg" alt="Laptop SSD Upgrade" loading="lazy">
                     <div class="gallery-item-overlay"><span class="gallery-item-label">SSD Upgrade</span></div>
                 </div>
                 <div class="gallery-item">
@@ -1032,7 +1118,7 @@
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="device">Device / Issue</label>
-                            <input type="text" id="device" class="form-input" placeholder="MSI laptop screen not working">
+                            <input type="text" id="device" class="form-input" placeholder="e.g. Laptop won't boot, cracked phone screen...">
                         </div>
                         <div class="form-group">
                             <label class="form-label" for="message">Tell us more</label>
@@ -1220,7 +1306,7 @@
     // TYPEWRITER ANIMATION
     // ══════════════════════════════════════════════════════
     const typeTarget = document.getElementById('typewriter-target');
-    const typeText = 'Professional repair services for MSI laptops, Android devices, SSD upgrades, custom ROMs, and precision 3D printed parts. Fast turnaround. Fair prices. Done right the first time.';
+    const typeText = 'Professional repair services for laptops, PCs, Android devices, custom ROMs, and precision 3D printed parts. MSI specialists. Fast turnaround. Fair prices. Done right the first time.';
     let typeIndex = 0;
     const typeCursor = document.createElement('span');
     typeCursor.className = 'type-cursor';
